@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FastAPI Analysis Tool</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      #plot-container {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        display: inline-block;
+        min-width: 300px;
+        min-height: 200px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>データ解析アプリ</h1>
+    <button onclick="runAnalysis()">解析実行</button>
+
+    <div id="plot-container">
+      <p id="status">ここにグラフが表示されます</p>
+      <img id="analysis-plot" src="" style="display: none" />
+    </div>
+
+    <script>
+      async function runAnalysis() {
+        const status = document.getElementById("status");
+        const img = document.getElementById("analysis-plot");
+
+        status.innerText = "解析中...";
+
+        // APIを叩く
+        const response = await fetch("/analyze");
+        const data = await response.json();
+
+        // 画像を表示
+        img.src = data.image;
+        img.style.display = "block";
+        status.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
